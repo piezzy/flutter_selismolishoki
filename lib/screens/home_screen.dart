@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16.0),
             decoration: const BoxDecoration(
-              color: Color(0xFFF97316),
+              color: Colors.orange,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),
                 bottomRight: Radius.circular(16.0),
@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
-                  itemCount: 9, // Based on the image
+                  itemCount: 9, 
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
