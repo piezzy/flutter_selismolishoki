@@ -73,7 +73,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
       }
     } catch (e) {
       _showDialog('Kesalahan', e.toString());
-      // Fallback ke lokasi default jika gagal
       if (_isMapReady) {
         _moveToPosition(const LatLng(-6.2088, 106.8456));
       }

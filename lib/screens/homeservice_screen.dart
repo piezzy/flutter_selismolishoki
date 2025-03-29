@@ -133,7 +133,6 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
     return Scaffold(
       body: Column(
         children: [
-          // AppBar with back button
           Container(
             height: 90,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -167,8 +166,6 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
               ),
             ),
           ),
-
-          // Content with ScrollView
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -176,7 +173,6 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Banner Image
                     Container(
                       height: 150,
                       decoration: BoxDecoration(
@@ -190,7 +186,6 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Header Text
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
@@ -305,82 +300,81 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
                           ),
                           const SizedBox(height: 16),
 
-const Text(
-  'Alamat',
-  style: TextStyle(
-    fontWeight: FontWeight.bold,
-  ),
-),
-const SizedBox(height: 8),
-TextField(
-  controller: _alamatController,
-  readOnly: true,
-  decoration: InputDecoration(
-    filled: true,
-    fillColor: Colors.grey[200],
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide.none,
-    ),
-    contentPadding: const EdgeInsets.symmetric(
-      horizontal: 16.0,
-      vertical: 12.0,
-    ),
-    hintText: 'Pilih lokasi di peta',
-  ),
-),
-const SizedBox(height: 8),
-Row(
-  children: [
-    Expanded(
-      child: ElevatedButton(
-        onPressed: _openMapPicker,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        child: const Text(
-          'Pilih Lokasi',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    ),
-    const SizedBox(width: 8),
-    Expanded(
-      child: ElevatedButton(
-        onPressed: _getCurrentLocation,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        child: const Text(
-          'Lokasi Saat Ini',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    ),
-  ],
-),
-if (_locationError != null)
-  Padding(
-    padding: const EdgeInsets.only(top: 8.0),
-    child: Text(
-      _locationError!,
-      style: const TextStyle(
-        color: Colors.red,
-        fontSize: 12,
-      ),
-    ),
-  ),
-const SizedBox(height: 16),
+                          const Text(
+                            'Alamat',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          TextField(
+                            controller: _alamatController,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 12.0,
+                              ),
+                              hintText: 'Pilih lokasi di peta',
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: _openMapPicker,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Pilih Lokasi',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: _getCurrentLocation,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Lokasi Saat Ini',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (_locationError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                _locationError!,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(height: 16),
 
-                          // Damage Type
                           const Text(
                             'Jenis Kerusakan',
                             style: TextStyle(
@@ -419,7 +413,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 16),
 
-                          // Damage Description
                           const Text(
                             'Deskripsi Kerusakan',
                             style: TextStyle(
@@ -445,7 +438,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 16),
 
-                          // Repair Date
                           const Text(
                             'Tanggal Perbaikan',
                             style: TextStyle(
@@ -494,7 +486,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 16),
 
-                          // Start Time
                           const Text(
                             'Waktu Mulai',
                             style: TextStyle(
@@ -535,7 +526,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 16),
 
-                          // End Time
                           const Text(
                             'Waktu Selesai',
                             style: TextStyle(
@@ -576,7 +566,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 16),
 
-                          // Damage Image Upload
                           const Text(
                             'Upload Gambar Kerusakan',
                             style: TextStyle(
@@ -619,7 +608,6 @@ const SizedBox(height: 16),
                           ),
                           const SizedBox(height: 24),
 
-                          // Submit Button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
@@ -695,7 +683,6 @@ const SizedBox(height: 16),
   }
 
   void _submitForm() {
-    // Process the form data
     final formData = {
       'nama': _namaController.text,
       'whatsapp': _whatsappController.text,
@@ -712,11 +699,9 @@ const SizedBox(height: 16),
 
     print('Form submitted: $formData');
 
-    // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
     );
 
-    // You can add your API call here to submit the data
   }
 }

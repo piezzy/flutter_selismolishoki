@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:flutter_selismolishoki/screens/homeservice_screen.dart';
+import 'package:flutter_selismolishoki/screens/bengkelservice_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomeServiceScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
