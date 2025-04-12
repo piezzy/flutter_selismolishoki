@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'homeservice_screen.dart'; 
 
 
 class HomeScreen extends StatelessWidget {
@@ -168,9 +169,45 @@ class HomeScreen extends StatelessWidget {
                   ),
                   itemCount: 9, 
                   itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeServiceScreen()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.home_repair_service,
+                                size: 40,
+                                color: Colors.orange,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Home Service',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade400,
+                        color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(12),
                       ),
                     );
