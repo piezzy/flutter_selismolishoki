@@ -19,10 +19,15 @@ class MyApp extends StatelessWidget {
 }
 
 class SearchReservationPage extends StatelessWidget {
-  const SearchReservationPage({super.key});
+  final String? reservationNumber;
+
+  const SearchReservationPage({super.key, this.reservationNumber});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _controller = 
+        TextEditingController(text: reservationNumber ?? '');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
@@ -47,6 +52,7 @@ class SearchReservationPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
+              controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Masukkan nomor resi',
                 border: OutlineInputBorder(),

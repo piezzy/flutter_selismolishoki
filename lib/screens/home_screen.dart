@@ -6,9 +6,38 @@ import 'CekStatus.dart';
 import 'FAQ_screen.dart';
 import 'testimoni_screen.dart'; 
 
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _reservationController = TextEditingController();
+
+  void _checkReservation() {
+    if (_reservationController.text.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchReservationPage(
+            reservationNumber: _reservationController.text,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Masukkan nomor resi terlebih dahulu')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _reservationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +109,20 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Text(
-                          'Cek Pesananmu',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
+                        Expanded(
+                          child: TextField(
+                            controller: _reservationController,
+                            decoration: const InputDecoration(
+                              hintText: 'Cek Pesananmu',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                            onSubmitted: (_) => _checkReservation(),
                           ),
                         ),
                       ],
@@ -94,14 +130,17 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(12),
+                GestureDetector(
+                  onTap: _checkReservation,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.search),
                   ),
-                  child: const Icon(Icons.search),
                 ),
               ],
             ),
@@ -163,99 +202,99 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
-                itemCount: 9,
-                itemBuilder: (context, index) {
-                  List<Map<String, dynamic>> menuItems = [
-                    {
-                      'icon': Icons.home_repair_service,
-                      'label': 'Home Service',
-                      'page': HomeServiceScreen(),
-                    },
-                    {
-                      'icon': Icons.build,
-                      'label': 'Bengkel Service',
-                      'page': BengkelServiceScreen(),
-                    },
-                    {
-                      'icon': Icons.search,
-                      'label': 'Reservasi',
-                      'page': SearchReservationPage(),
-                    },
-                    {
-                      'icon': Icons.reviews,
-                      'label': 'Testimoni',
-                      'page': TestimonialPage(),
-                    },
-                    {
-                      'icon': Icons.help_outline,
-                      'label': 'FAQ',
-                      'page': FAQPage(),
-                    },
-                  ];
-
-                  if (index < menuItems.length) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => menuItems[index]['page']),
-                        );
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: 9,
+                  itemBuilder: (context, index) {
+                    List<Map<String, dynamic>> menuItems = [
+                      {
+                        'icon': Icons.home_repair_service,
+                        'label': 'Home Service',
+                        'page': HomeServiceScreen(),
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
+                      {
+                        'icon': Icons.build,
+                        'label': 'Bengkel Service',
+                        'page': BengkelServiceScreen(),
+                      },
+                      {
+                        'icon': Icons.search,
+                        'label': 'Reservasi',
+                        'page': SearchReservationPage(),
+                      },
+                      {
+                        'icon': Icons.reviews,
+                        'label': 'Testimoni',
+                        'page': TestimonialPage(),
+                      },
+                      {
+                        'icon': Icons.help_outline,
+                        'label': 'FAQ',
+                        'page': FAQPage(),
+                      },
+                    ];
+
+                    if (index < menuItems.length) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => menuItems[index]['page']),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFFF4FC),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade300,
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                            border: Border.all(
                               color: Colors.grey.shade300,
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
+                              width: 1,
                             ),
-                          ],
-                          border: Border.all(
-                            color: Colors.grey.shade300,
-                            width: 1,
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              menuItems[index]['icon'],
-                              size: 38,
-                              color: Colors.black,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              menuItems[index]['label'],
-                              style: const TextStyle(
-                                fontSize: 10,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                menuItems[index]['icon'],
+                                size: 38,
                                 color: Colors.black,
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Text(
+                                menuItems[index]['label'],
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }
+                      );
+                    }
 
-                  // return Container(
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.grey.shade200,
-                  //     borderRadius: BorderRadius.circular(12),
-                  //   ),
-                  // );
-                },
-              ),
+                    // return Container(
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.grey.shade200,
+                    //     borderRadius: BorderRadius.circular(12),
+                    //   ),
+                    // );
+                  },
+                ),
               ],
             ),
           ),
