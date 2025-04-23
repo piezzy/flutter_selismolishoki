@@ -64,9 +64,9 @@ class _TestimonialPageState extends State<TestimonialPage> {
   }
 
   void _launchURL() async {
-    const url = 'https://forms.gle/6nxugD1c9eofhLtv8';
-    if (await canLaunch(url)) {
-      await launch(url);
+    final Uri url = Uri.parse('https://forms.gle/6nxugD1c9eofhLtv8');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
     }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'homeservice_screen.dart'; 
+import 'homeservice_screen.dart';
+import 'bengkelservice_screen.dart';
+import 'CekStatus.dart';
+import 'FAQ_screen.dart';
+import 'testimoni_screen.dart'; 
 
 
 class HomeScreen extends StatelessWidget {
@@ -159,60 +163,99 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  itemCount: 9, 
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeServiceScreen()),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.home_repair_service,
-                                size: 40,
-                                color: Colors.orange,
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Home Service',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: 9,
+                itemBuilder: (context, index) {
+                  List<Map<String, dynamic>> menuItems = [
+                    {
+                      'icon': Icons.home_repair_service,
+                      'label': 'Home Service',
+                      'page': HomeServiceScreen(),
+                    },
+                    {
+                      'icon': Icons.build,
+                      'label': 'Bengkel Service',
+                      'page': BengkelServiceScreen(),
+                    },
+                    {
+                      'icon': Icons.search,
+                      'label': 'Reservasi',
+                      'page': SearchReservationPage(),
+                    },
+                    {
+                      'icon': Icons.reviews,
+                      'label': 'Testimoni',
+                      'page': TestimonialPage(),
+                    },
+                    {
+                      'icon': Icons.help_outline,
+                      'label': 'FAQ',
+                      'page': FAQPage(),
+                    },
+                  ];
+
+                  if (index < menuItems.length) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => menuItems[index]['page']),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.shade300,
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 1,
                           ),
                         ),
-                      );
-                    }
-
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              menuItems[index]['icon'],
+                              size: 38,
+                              color: Colors.black,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              menuItems[index]['label'],
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  },
-                ),
+                  }
+
+                  // return Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey.shade200,
+                  //     borderRadius: BorderRadius.circular(12),
+                  //   ),
+                  // );
+                },
+              ),
               ],
             ),
           ),
