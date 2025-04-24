@@ -224,11 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         'page': BengkelServiceScreen(),
                       },
                       {
-                        'icon': Icons.search,
-                        'label': 'Reservasi',
-                        'page': SearchReservationPage(),
-                      },
-                      {
                         'icon': Icons.reviews,
                         'label': 'Testimoni',
                         'page': TestimonialPage(),
@@ -303,3 +298,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+//todo revisi UI

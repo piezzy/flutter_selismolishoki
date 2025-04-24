@@ -112,7 +112,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
 
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        color: Color.fromARGB(255, 249, 255, 200),
+                        color: Color.fromARGB(255, 255, 255, 255),
                         shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15), // Mengatur sudut melengkung
                         ),
@@ -149,3 +149,5 @@ class _TestimonialPageState extends State<TestimonialPage> {
     );
   }
 }
+
+//to do revisi UI, buat bagian khusus/tombol untuk masuk ke form

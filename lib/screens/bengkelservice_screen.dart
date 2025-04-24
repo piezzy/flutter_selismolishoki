@@ -525,13 +525,6 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
       return false;
     }
 
-    if (_selectedLocation == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Silakan pilih lokasi')),
-      );
-      return false;
-    }
-
     if (_selectedKerusakan == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Silakan pilih jenis kerusakan')),
@@ -554,7 +547,6 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
       'nama': _namaController.text,
       'whatsapp': _whatsappController.text,
       'alamat lengkap': _alamatlengkapController.text,
-      'lokasi': _selectedLocation,
       'jenis_kerusakan': _selectedKerusakan,
       'deskripsi': _deskripsiController.text,
       'tanggal': _selectedDate?.toIso8601String(),
@@ -564,10 +556,12 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
     };
 
     print('Form submitted: $formData');
-
+    //to do, add API request post
+    
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
     );
 
   }
+  
 }
