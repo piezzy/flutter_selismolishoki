@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'cek status',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.orange,
       ),
       home: SearchReservationPage(),
     );
@@ -30,7 +30,7 @@ class SearchReservationPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.orange,
         title: Text(
           'Cek Status Perbaikan',
           style: TextStyle(color: Colors.black),
@@ -72,7 +72,7 @@ class SearchReservationPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.deepOrange,
+        selectedItemColor: Colors.orange,
         unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(

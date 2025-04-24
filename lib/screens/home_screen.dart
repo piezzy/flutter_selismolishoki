@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Promo',
+                  'Layanan',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -169,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     autoPlayInterval: const Duration(seconds: 5),
                   ),
                   items: [
-                    'assets/testpromo.jpeg',
-                    'assets/testpromo2.jpeg',
-                    'assets/testpromo3.jpeg',
+                    'assets/bengkelservicesmh.png',
+                    'assets/homeservicesmh.png',
+                    'assets/tokoselismolishoki.png',
                   ].map((imagePath) {
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -255,8 +255,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.shade300,
-                                blurRadius: 4,
-                                offset: const Offset(0, 2),
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
                               ),
                             ],
                             border: Border.all(
