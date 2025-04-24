@@ -75,7 +75,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Testimoni', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)), backgroundColor: Color(0xFFF97316),),
+      appBar: AppBar(title: Text('Testimoni', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)), backgroundColor: Colors.orange,),
       body: Column(
         children: [
           Padding(
