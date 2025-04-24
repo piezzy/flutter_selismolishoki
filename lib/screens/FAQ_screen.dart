@@ -49,7 +49,7 @@ class FAQPage extends StatelessWidget {
           itemCount: faqList.length,
           itemBuilder: (context, index) {
             return Card(
-              color: Color.fromARGB(255, 253, 255, 241),
+              color: Color.fromARGB(255, 255, 255, 255),
               elevation: 2,
               margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10), // Atur jarak antar Card
               child: ExpansionTile(
