@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'cek status',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.deepOrange,
       ),
       home: SearchReservationPage(),
     );
@@ -19,18 +19,13 @@ class MyApp extends StatelessWidget {
 }
 
 class SearchReservationPage extends StatelessWidget {
-  final String? reservationNumber;
-
-  const SearchReservationPage({super.key, this.reservationNumber});
+  const SearchReservationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = 
-        TextEditingController(text: reservationNumber ?? '');
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.deepOrange,
         title: Text(
           'Cek Status Perbaikan',
           style: TextStyle(color: Colors.black),
@@ -52,7 +47,6 @@ class SearchReservationPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
-              controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Masukkan nomor resi',
                 border: OutlineInputBorder(),
@@ -70,24 +64,6 @@ class SearchReservationPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.orange,
-        unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Reservasi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Pengaturan',
-          ),
-        ],
       ),
     );
   }
