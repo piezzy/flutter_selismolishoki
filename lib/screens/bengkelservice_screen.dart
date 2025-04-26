@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'location_picker_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class BengkelServiceScreen extends StatefulWidget {
   const BengkelServiceScreen({Key? key}) : super(key: key);
@@ -542,26 +544,45 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
     return true;
   }
 
-  void _submitForm() {
-    final formData = {
-      'nama': _namaController.text,
-      'whatsapp': _whatsappController.text,
-      'alamat lengkap': _alamatlengkapController.text,
-      'jenis_kerusakan': _selectedKerusakan,
-      'deskripsi': _deskripsiController.text,
-      'tanggal': _selectedDate?.toIso8601String(),
-      'waktu_mulai': _selectedStartTime,
-      'waktu_selesai': _selectedEndTime,
-      'gambar': _selectedImage?.path,
-    };
+  void _submitForm() async {
+  final formData = {
+    'nama': _namaController.text,
+    'whatsapp': _whatsappController.text,
+    'alamat lengkap': _alamatlengkapController.text,
+    'jenis_kerusakan': _selectedKerusakan,
+    'deskripsi': _deskripsiController.text,
+    'tanggal': _selectedDate?.toIso8601String(),
+    'waktu_mulai': _selectedStartTime,
+    'waktu_selesai': _selectedEndTime,
+    'gambar': _selectedImage?.path,
+  };
 
-    print('Form submitted: $formData');
-    //to do, add API request post
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
+  try {
+    final url = Uri.parse('https://');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(formData),
     );
 
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
+      );
+      print('Response: ${response.body}');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal mengirim data: ${response.statusCode}')),
+      );
+      print('Error: ${response.body}');
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Terjadi error: $e')),
+    );
+    print('Exception: $e');
   }
-  
 }
