@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_selismolishoki/screens/home_screen.dart';
+import 'package:flutter_selismolishoki/screens/FAQ_screen.dart';
 void main() {
   runApp(MyApp());
 }
@@ -84,15 +85,37 @@ class SearchReservationPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1, // Reservasi aktif
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              // Navigasi ke halaman Home yang sudah ada
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()), // Ganti dengan nama class Home screen anda
+              );
+              break;
+            case 1:
+              // Sudah di halaman Reservasi
+              break;
+            case 2:
+              // Navigasi ke halaman FAQ yang sudah ada
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => FAQPage()), // Ganti dengan nama class FAQ screen anda
+              );
+              break;
+          }
+        },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reservasi'),
           BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
         ],
-        selectedItemColor: Colors.grey, // item aktif
-        unselectedItemColor: Color(0xFFF97316), // item tidak aktif
-        type: BottomNavigationBarType.fixed, // item kelihatan
+        selectedItemColor: Color(0xFFF97316),
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
