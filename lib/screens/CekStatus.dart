@@ -19,7 +19,12 @@ class MyApp extends StatelessWidget {
 }
 
 class SearchReservationPage extends StatelessWidget {
-  const SearchReservationPage({super.key});
+    final String reservationNumber;
+
+  const SearchReservationPage({
+    Key? key,
+    required this.reservationNumber,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
