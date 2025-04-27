@@ -41,7 +41,7 @@ class SearchReservationPage extends StatelessWidget {
             Center(
               child: Text(
                 'Masukkan nomor resi perbaikan Anda untuk melihat status terkini dari unit yang sedang diperbaiki.',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -56,9 +56,9 @@ class SearchReservationPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10), 
+                SizedBox(width: 10), // jarak antara TextField dan tombol search
                 Container(
-                  height: 55, // tinggi
+                  height: 55, // tinggi sejajar dengan TextField
                   width: 60,
                   decoration: BoxDecoration(
                     color: Colors.blue,
@@ -67,6 +67,7 @@ class SearchReservationPage extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.search, color: Colors.white),
                     onPressed: () {
+                      // Aksi ketika search ditekan
                     },
                   ),
                 ),
@@ -74,6 +75,16 @@ class SearchReservationPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reseervasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
+        ],
+        selectedItemColor: Colors.white, // item aktif
+        unselectedItemColor: Colors.deepOrange, // item tidak aktif
+        type: BottomNavigationBarType.fixed, // item kelihatan
       ),
     );
   }
