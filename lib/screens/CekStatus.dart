@@ -11,21 +11,28 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Cek Status',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.orange,
       ),
-      home: SearchReservationPage(),
+      home: SearchReservationPage(reservationNumber: ''),
     );
   }
 }
 
 class SearchReservationPage extends StatelessWidget {
-  const SearchReservationPage({super.key});
+  final String reservationNumber;
+ 
+   const SearchReservationPage({
+     Key? key,
+     required this.reservationNumber,
+   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _controller = 
+         TextEditingController(text: reservationNumber ?? '');
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.orange,
         title: Text(
           'Cek Status Perbaikan',
           style: TextStyle(color: Colors.black),
@@ -50,6 +57,7 @@ class SearchReservationPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _controller,
                     decoration: InputDecoration(
                       labelText: 'Masukkan nomor resi',
                       border: OutlineInputBorder(),
@@ -79,11 +87,11 @@ class SearchReservationPage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reseervasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reservasi'),
           BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
         ],
         selectedItemColor: Colors.white, // item aktif
-        unselectedItemColor: Colors.deepOrange, // item tidak aktif
+        unselectedItemColor: Colors.orange, // item tidak aktif
         type: BottomNavigationBarType.fixed, // item kelihatan
       ),
     );
