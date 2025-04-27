@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Cek Status',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Color(0xFFF97316),
       ),
       home: SearchReservationPage(reservationNumber: ''),
     );
@@ -32,7 +32,7 @@ class SearchReservationPage extends StatelessWidget {
          TextEditingController(text: reservationNumber ?? '');
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xFFF97316),
         title: Text(
           'Cek Status Perbaikan',
           style: TextStyle(color: Colors.black),
@@ -90,8 +90,8 @@ class SearchReservationPage extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reservasi'),
           BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
         ],
-        selectedItemColor: Colors.white, // item aktif
-        unselectedItemColor: Colors.orange, // item tidak aktif
+        selectedItemColor: Colors.grey, // item aktif
+        unselectedItemColor: Color(0xFFF97316), // item tidak aktif
         type: BottomNavigationBarType.fixed, // item kelihatan
       ),
     );
