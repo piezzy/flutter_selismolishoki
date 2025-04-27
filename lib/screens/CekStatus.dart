@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'cek status',
+      title: 'Cek Status',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
@@ -46,15 +46,31 @@ class SearchReservationPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Masukkan nomor resi',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.blue, 
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Masukkan nomor resi',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(width: 10), 
+                Container(
+                  height: 55, // tinggi
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.search, color: Colors.white),
+                    onPressed: () {
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
