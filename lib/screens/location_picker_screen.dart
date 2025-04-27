@@ -100,7 +100,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pilih Lokasi'),
-        backgroundColor: Colors.orange,
+        backgroundColor: const Color(0xFFF97316),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -165,7 +165,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
-              backgroundColor: Colors.orange,
+              backgroundColor: const Color(0xFFF97316),
               onPressed: _getCurrentLocation,
               child: const Icon(Icons.my_location),
             ),
