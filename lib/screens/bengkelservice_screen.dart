@@ -268,6 +268,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             hint: const Text('Pilih jenis kerusakan'),
                             isExpanded: true,
                             icon: const Icon(Icons.arrow_drop_down),
+                            dropdownMaxHeight: 200,
                             items: _jenisKerusakan.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
