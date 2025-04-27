@@ -81,7 +81,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
             height: 90,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             decoration: const BoxDecoration(
-              color: Colors.orange,
+              color: const Color(0xFFF97316),
             ),
             child: SafeArea(
               bottom: false,
@@ -479,7 +479,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
 
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
+                              backgroundColor: const Color(0xFFF97316),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
