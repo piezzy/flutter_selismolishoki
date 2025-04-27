@@ -8,8 +8,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dropdown_button2/dropdown_button2.dart';
-
 
 class BengkelServiceScreen extends StatefulWidget {
   const BengkelServiceScreen({Key? key}) : super(key: key);
@@ -253,7 +251,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          DropdownButtonFormField2<String>(
+                          DropdownButtonFormField<String>(
                             value: _selectedKerusakan,
                             decoration: InputDecoration(
                               filled: true,
@@ -270,10 +268,6 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             hint: const Text('Pilih jenis kerusakan'),
                             isExpanded: true,
                             icon: const Icon(Icons.arrow_drop_down),
-                            dropdownMaxHeight: 200,
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(Icons.arrow.drop_down),
-                            ),
                             items: _jenisKerusakan.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
