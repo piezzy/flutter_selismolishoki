@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:flutter_selismolishoki/screens/FAQ_screen.dart';
+
 void main() {
   runApp(MyApp());
 }

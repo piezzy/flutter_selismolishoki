@@ -696,12 +696,34 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
       'waktu_selesai': _selectedEndTime,
       'gambar': _selectedImage?.path,
     };
-    //todo : submit to API, Tunggu API selesai
-    print('Form submitted: $formData');
+    
+ try {
+    final url = Uri.parse('https://');
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(formData),
     );
 
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
+      );
+      print('Response: ${response.body}');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal mengirim data: ${response.statusCode}')),
+      );
+      print('Error: ${response.body}');
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Terjadi error: $e')),
+    );
+    print('Exception: $e');
   }
+}
 }
