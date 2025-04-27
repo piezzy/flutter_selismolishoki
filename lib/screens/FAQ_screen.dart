@@ -41,7 +41,7 @@ class FAQPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('FAQ', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xFFF97316),
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0),

@@ -1,93 +1,98 @@
 import 'package:flutter/material.dart';
 
-class SearchReservationPage extends StatefulWidget {
-  final String? initialResiNumber;
-
-  const SearchReservationPage({super.key, this.initialResiNumber});
-
-  @override
-  State<SearchReservationPage> createState() => _SearchReservationPageState();
+void main() {
+  runApp(MyApp());
 }
 
-class _SearchReservationPageState extends State<SearchReservationPage> {
-  late TextEditingController _resiController;
-
+class MyApp extends StatelessWidget {
   @override
-  void initState() {
-    super.initState();
-    _resiController = TextEditingController(text: widget.initialResiNumber ?? '');
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Cek Status',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: SearchReservationPage(reservationNumber: ''),
+    );
   }
+}
 
-  @override
-  void dispose() {
-    _resiController.dispose();
-    super.dispose();
-  }
-
-  void _searchReservation() {
-    final resiNumber = _resiController.text;
-    if (resiNumber.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Masukkan nomor resi terlebih dahulu')),
-      );
-      return;
-    }
-  }
+class SearchReservationPage extends StatelessWidget {
+  final String reservationNumber;
+ 
+   const SearchReservationPage({
+     Key? key,
+     required this.reservationNumber,
+   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _controller = 
+         TextEditingController(text: reservationNumber ?? '');
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
-        title: const Text(
+        backgroundColor: Colors.orange,
+        title: Text(
           'Cek Status Perbaikan',
           style: TextStyle(color: Colors.black),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 8),
-            const Center(
+            SizedBox(height: 8),
+            Center(
               child: Text(
                 'Masukkan nomor resi perbaikan Anda untuk melihat status terkini dari unit yang sedang diperbaiki.',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _resiController,
-                    decoration: const InputDecoration(
+                    controller: _controller,
+                    decoration: InputDecoration(
                       labelText: 'Masukkan nomor resi',
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10), // jarak antara TextField dan tombol search
                 Container(
-                  height: 55,
+                  height: 55, // tinggi sejajar dengan TextField
                   width: 60,
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.search, color: Colors.white),
-                    onPressed: _searchReservation,
+                    icon: Icon(Icons.search, color: Colors.white),
+                    onPressed: () {
+                      // Aksi ketika search ditekan
+                    },
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reservasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
+        ],
+        selectedItemColor: Colors.white, // item aktif
+        unselectedItemColor: Colors.orange, // item tidak aktif
+        type: BottomNavigationBarType.fixed, // item kelihatan
       ),
     );
   }
