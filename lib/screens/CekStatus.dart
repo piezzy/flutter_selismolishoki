@@ -13,18 +13,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: SearchReservationPage(reservationNumber: ''),
+      home: SearchReservationPage(),
     );
   }
 }
 
 class SearchReservationPage extends StatelessWidget {
-    final String reservationNumber;
-
-  const SearchReservationPage({
-    Key? key,
-    required this.reservationNumber,
-  }) : super(key: key);
+  const SearchReservationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +50,10 @@ class SearchReservationPage extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Masukkan nomor resi',
                 border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-            SizedBox(height: 20),
-            Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                },
-                child: Text('Cek Status'),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.blue, 
+                ),
               ),
             ),
           ],
