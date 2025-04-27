@@ -253,7 +253,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          DropdownButtonFormField<String>(
+                          DropdownButtonFormField2<String>(
                             value: _selectedKerusakan,
                             decoration: InputDecoration(
                               filled: true,
