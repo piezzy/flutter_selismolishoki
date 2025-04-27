@@ -26,10 +26,10 @@ class _TestimonialPageState extends State<TestimonialPage> {
       List<String> rows = response.body.split("\n").where((row) => row.trim().isNotEmpty).toList();
       List<Map<String, String>> parsedData = [];
 
-      for (int i = 1; i < rows.length; i++) { 
+      for (int i = 1; i < rows.length; i++) {
         List<String> columns = _parseCsvRow(rows[i]);
 
-        if (columns.length >= 3) { // Parsing data csv dan sesuaikan dengan indikator yang ada pada csv
+        if (columns.length >= 3) {
           parsedData.add({
             "Nama": columns[1].trim(),
             "Rating Tingkat Kepuasan": columns[2].trim(),
@@ -48,7 +48,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
     List<String> result = [];
     String current = "";
     bool inQuotes = false;
-    
+
     for (int i = 0; i < row.length; i++) {
       if (row[i] == '"') {
         inQuotes = !inQuotes;
@@ -64,9 +64,9 @@ class _TestimonialPageState extends State<TestimonialPage> {
   }
 
   void _launchURL() async {
-    final Uri url = Uri.parse('https://forms.gle/6nxugD1c9eofhLtv8');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
+    const url = 'https://forms.gle/6nxugD1c9eofhLtv8';
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
       throw 'Could not launch $url';
     }
@@ -75,7 +75,10 @@ class _TestimonialPageState extends State<TestimonialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Testimoni', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)), backgroundColor: Colors.orange,),
+      appBar: AppBar(
+        title: Text('Testimoni', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xFFF97316),
+      ),
       body: Column(
         children: [
           Padding(
@@ -83,17 +86,9 @@ class _TestimonialPageState extends State<TestimonialPage> {
             child: Column(
               children: [
                 Text(
-                  'Terimakasih telah menggunakan layanan kami, jika anda berkenan silahkan berikan testimoni pada link berikut:',
+                  'Pesan - Pesan dari Pelanggan Sebelumnya',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
-                ),
-                SizedBox(height: 5),
-                GestureDetector(
-                  onTap: _launchURL,
-                  child: Text(
-                    'https://forms.gle/6nxugD1c9eofhLtv8',
-                    style: TextStyle(fontSize: 16, color: const Color.fromARGB(255, 13, 140, 244), fontFamily: 'Poppins'),
-                  ),
                 ),
               ],
             ),
@@ -105,37 +100,48 @@ class _TestimonialPageState extends State<TestimonialPage> {
                     itemCount: testimonials.length,
                     itemBuilder: (context, index) {
                       final testimonial = testimonials[index];
-
-                      final String name = testimonial["Nama"] ?? "Nama";
+                      final String name = testimonial["Nama"] ?? "User";
                       final int rating = int.tryParse(testimonial["Rating Tingkat Kepuasan"]?.replaceAll(RegExp(r'[^0-9]'), '') ?? "0")?.clamp(0, 5) ?? 0;
                       final String comment = testimonial["Testimoni"] ?? "-";
 
-                      return Card(
-                        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15), // Mengatur sudut melengkung
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(15),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
-                                name,
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Poppins'),
-                              ),
-                              SizedBox(height: 5),
-                              Row(
-                                children: List.generate(
-                                  rating,
-                                  (index) => Icon(Icons.star, color: Colors.amber),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF97316),
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(
+                                    rating,
+                                    (index) => Icon(Icons.star, color: Colors.yellow, size: 20),
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 5),
-                              Text(
-                                comment,
-                                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.black, fontFamily: 'Poppins'),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '“$comment”',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 16,  fontFamily: 'Poppins'),
+                                    ),
+                                    SizedBox(height: 12),
+                                    Text(
+                                      "- $name",
+                                      style: TextStyle(fontSize: 14, color: Colors.black54, fontFamily: 'Poppins'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -149,5 +155,3 @@ class _TestimonialPageState extends State<TestimonialPage> {
     );
   }
 }
-
-//to do revisi UI, buat bagian khusus/tombol untuk masuk ke form
