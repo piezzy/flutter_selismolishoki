@@ -11,6 +11,7 @@ class TestimonialPage extends StatefulWidget {
 
 class _TestimonialPageState extends State<TestimonialPage> {
   List<Map<String, String>> testimonials = [];
+  int _currentIndex = 1; // Karena ini halaman tengah (search icon)
 
   @override
   void initState() {
@@ -61,6 +62,19 @@ class _TestimonialPageState extends State<TestimonialPage> {
     }
     result.add(current.trim());
     return result;
+  }
+
+  void _onNavBarTapped(int index) {
+    if (index == 0) {
+      // Kode navigasi ke Home (kalau sudah ada)
+    } else if (index == 1) {
+      // Stay di Testimoni (sekarang ini)
+    } else if (index == 2) {
+      _launchURL(); // Tombol search diarahkan ke Google Form
+    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   void _launchURL() async {
@@ -133,7 +147,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
                                     Text(
                                       '“$comment”',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16,  fontFamily: 'Poppins'),
+                                      style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
                                     ),
                                     SizedBox(height: 12),
                                     Text(
@@ -149,6 +163,27 @@ class _TestimonialPageState extends State<TestimonialPage> {
                       );
                     },
                   ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onNavBarTapped,
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xFFF97316),
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Reservasi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.help),
+            label: 'FAQ',
           ),
         ],
       ),
