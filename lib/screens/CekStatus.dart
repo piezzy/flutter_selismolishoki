@@ -86,24 +86,21 @@ class SearchReservationPage extends StatelessWidget {
         ),
       ),
        bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1, // Reservasi aktif
+        currentIndex: 1,
         onTap: (index) {
           switch (index) {
             case 0:
-              // Navigasi ke halaman Home yang sudah ada
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()), // Ganti dengan nama class Home screen anda
+                MaterialPageRoute(builder: (context) => HomeScreen()), 
               );
               break;
             case 1:
-              // Sudah di halaman Reservasi
               break;
             case 2:
-              // Navigasi ke halaman FAQ yang sudah ada
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => FAQPage()), // Ganti dengan nama class FAQ screen anda
+                MaterialPageRoute(builder: (context) => FAQPage()),
               );
               break;
           }
