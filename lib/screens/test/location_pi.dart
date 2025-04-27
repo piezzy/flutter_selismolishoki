@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'homeservice_screen.dart';
-import 'bengkelservice_screen.dart';
-import 'CekStatus.dart';
-import 'FAQ_screen.dart';
-import 'testimoni_screen.dart'; 
+import '../homeservice_screen.dart';
+import '../bengkelservice_screen.dart';
+import '../CekStatus.dart';
+import '../FAQ_screen.dart';
+import '../testimoni_screen.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
