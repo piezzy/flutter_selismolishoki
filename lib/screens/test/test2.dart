@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => SearchReservationPage(
-            reservationNumber: _reservationController.text,
+            initialResiNumber: _reservationController.text,
           ),
         ),
       );
@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: .0),
             decoration: const BoxDecoration(
-              color: Colors.orange,
+              color: Color(0xFFF97316),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),
                 bottomRight: Radius.circular(16.0),
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         backgroundColor: Colors.white,
                         radius: 20,
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 83),
                       const Text(
                         'Selismolis Hoki',
                         style: TextStyle(
@@ -76,27 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Halo,',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const Text(
-                    'Selamat datang!',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
                 ],
               ),
             ),
           ),
-          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -115,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: TextField(
                             controller: _reservationController,
                             decoration: const InputDecoration(
-                              hintText: 'Cek Pesananmu',
+                              hintText: 'Cek Status Servis',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16,
@@ -136,16 +119,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(Icons.search),
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      ),
                   ),
                 ),
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -161,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 12),
                 CarouselSlider(
                   options: CarouselOptions(
-                    height: 120,
+                    height: 250,
                     viewportFraction: 0.8,
                     enableInfiniteScroll: false,
                     enlargeCenterPage: true,
@@ -169,18 +154,106 @@ class _HomeScreenState extends State<HomeScreen> {
                     autoPlayInterval: const Duration(seconds: 5),
                   ),
                   items: [
-                    'assets/bengkelservicesmh.png',
-                    'assets/homeservicesmh.png',
-                    'assets/tokoselismolishoki.png',
-                  ].map((imagePath) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                          image: AssetImage(imagePath),
-                          fit: BoxFit.cover,
-                        ),
+                    {
+                      'image': 'assets/carousel1.jpg',
+                      'title': 'Selis Molis Hoki',
+                      'subtitle': 'Ingin tahu status perbaikan kendaraan anda?',
+                      'buttonText': 'Cek Status',
+                      'onPressed': () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchReservationPage()));
+                      },
+                    },
+                    {
+                      'image': 'assets/carousel2.jpg',
+                      'title': 'Selis Molis Hoki',
+                      'subtitle': 'Home Service dan Servis di Bengkel\nSiap Melayani Dimana Saja, Kapan Saja!',
+                      'buttonText': 'Servis Sekarang',
+                      'onPressed': () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => HomeServiceScreen()));
+                      },
+                    },
+                    {
+                      'image': 'assets/carousel3.jpg',
+                      'title': 'Selis Molis Hoki',
+                      'subtitle': 'Servis Kendaraan Listrik dan Sepeda Listrik Purwokerto.',
+                      'buttonText': 'Servis Sekarang',
+                      'onPressed': () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => BengkelServiceScreen()));
+                      },
+                    },
+                  ].map((item) {
+                    return SizedBox(
+                      width: 500,
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              image: DecorationImage(
+                                image: AssetImage(item['image'] as String),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              gradient: LinearGradient(
+                                begin: Alignment.center,
+                                end: Alignment.center,
+                                colors: [
+                                  Colors.black.withOpacity(0.4),
+                                  Colors.black.withOpacity(0),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  item['title'] as String,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  item['subtitle'] as String,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 12),
+                              ElevatedButton(
+                                onPressed: item['onPressed'] as VoidCallback,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  minimumSize: Size(90, 35),
+                                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7), 
+                                ),
+                                child: Text(
+                                  item['buttonText'] as String,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12, 
+                                  ),
+                                ),
+                              ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }).toList(),
@@ -188,7 +261,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -298,5 +370,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-//todo revisi UI
