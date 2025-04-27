@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => SearchReservationPage(
-            reservationNumber: _reservationController.text,
+            initialResiNumber: _reservationController.text,
           ),
         ),
       );
