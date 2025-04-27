@@ -282,6 +282,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                               });
                             },
                           ),
+                        ),
                           const SizedBox(height: 16),
 
                           const Text(
