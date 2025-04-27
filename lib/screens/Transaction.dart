@@ -21,13 +21,6 @@ class _PembayaranPageState extends State<PembayaranPage> {
   final String qrData = "SELIS-MOLIS-HOKI"; // Data QR Default
   final TextEditingController _controller = TextEditingController();
 
-  void updateQR() {
-    setState(() {});
-  }
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
