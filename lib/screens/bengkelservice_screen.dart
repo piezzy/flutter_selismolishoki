@@ -271,6 +271,9 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             isExpanded: true,
                             icon: const Icon(Icons.arrow_drop_down),
                             dropdownMaxHeight: 200,
+                            iconStyleData: const IconStyleData(
+                              icon: Icon(Icons.arrow.drop_down),
+                            ),
                             items: _jenisKerusakan.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
