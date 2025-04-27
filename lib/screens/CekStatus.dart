@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Cek Status',
       theme: ThemeData(
-        primarySwatch: Color(0xFFF97316),
+        primaryColor Colors(0xFFF97316),
       ),
       home: SearchReservationPage(reservationNumber: ''),
     );
