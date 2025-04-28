@@ -75,14 +75,6 @@ class _TestimonialPageState extends State<TestimonialPage> {
         );
     } else if (index == 1) {
       // Stay di Testimoni (sekarang ini)
-        Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SearchReservationPage(
-            reservationNumber: _reservationController.text,
-          ),
-        ),
-        );
     } else if (index == 2) {
       _launchURL(); // Tombol search diarahkan ke Google Form
     }
