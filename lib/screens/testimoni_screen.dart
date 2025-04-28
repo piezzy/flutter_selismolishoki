@@ -13,7 +13,7 @@ class TestimonialPage extends StatefulWidget {
 
 class _TestimonialPageState extends State<TestimonialPage> {
   List<Map<String, String>> testimonials = [];
-  int _currentIndex = 1; // Karena ini halaman tengah (search icon)
+  int _currentIndex = -1; // Karena ini halaman tengah (search icon)
 
   @override
   void initState() {
@@ -78,9 +78,6 @@ class _TestimonialPageState extends State<TestimonialPage> {
     } else if (index == 2) {
       _launchURL(); // Tombol search diarahkan ke Google Form
     }
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   void _launchURL() async {
