@@ -64,21 +64,29 @@ class _TestimonialPageState extends State<TestimonialPage> {
     return result;
   }
 
-   void _onNavBarTapped(int index) {
-    if (index == _currentIndex) {
-      // Jika user tap halaman yang sedang aktif, tidak perlu melakukan apa-apa
-      return;
-    }
-    
+  void _onNavBarTapped(int index) {
     if (index == 0) {
-      // Navigasi ke Home
-      Navigator.pushReplacementNamed(context, '/home');
+      // Kode navigasi ke Home (kalau sudah ada)
+        Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
     } else if (index == 1) {
-      // Sudah berada di halaman testimoni, tidak perlu melakukan navigasi
+      // Stay di Testimoni (sekarang ini)
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchReservationPage(
+            reservationNumber: _reservationController.text,
+          ),
+        ),
+        );
     } else if (index == 2) {
-      // Navigasi ke halaman Reservasi (Google Form)
-      _launchURL();
+      _launchURL(); // Tombol search diarahkan ke Google Form
     }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   void _launchURL() async {
