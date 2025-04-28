@@ -67,15 +67,15 @@ class _TestimonialPageState extends State<TestimonialPage> {
   }
 
   void _onNavBarTapped(int index) {
-    if (index == 0) {
+    if (index == 1) {
       // Kode navigasi ke Home (kalau sudah ada)
         Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-    } else if (index == 1) {
-      // Stay di Testimoni (sekarang ini)
     } else if (index == 2) {
+      // Stay di Testimoni (sekarang ini)
+    } else if (index == 3) {
       _launchURL(); // Tombol search diarahkan ke Google Form
     }
   }
