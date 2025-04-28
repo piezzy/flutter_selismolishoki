@@ -13,7 +13,7 @@ class TestimonialPage extends StatefulWidget {
 
 class _TestimonialPageState extends State<TestimonialPage> {
   List<Map<String, String>> testimonials = [];
-  int _currentIndex = -1; // Karena ini halaman tengah (search icon)
+  int _currentIndex = 0; // Karena ini halaman tengah (search icon)
 
   @override
   void initState() {
