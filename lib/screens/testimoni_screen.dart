@@ -64,132 +64,17 @@ class _TestimonialPageState extends State<TestimonialPage> {
     return result;
   }
 
-  appropriate pages.
-
-
-
-
-
-import 'package:flutter/material.dart'; import 'package:carousel_slider/carousel_slider.dart'; import 'homeservice_screen.dart'; import 'bengkelservice_screen.dart'; import 'CekStatus.dart'; import 'FAQ_screen.dart'; import 'testimoni_screen.dart'; class HomeScreen extends StatefulWidget {
-
-pasted
-
-BERIKUT KODE HOMESCREEN
-
-Edit
-Looking at both your HomeScreen and TestimonialPage code, I'll create a more consistent navigation system between the two pages. Let me fix the navigation logic so that the bottom nav bar shows the correct active icon on each page.
-
-
-Fixed HomeScreen Code
-Code 
-
-Fixed TestimonialPage Code
-Code 
-Here are the key improvements I made to both files:
-
-Made navigation consistent between pages:
-Used the same icons and labels in both pages
-Home uses home icon (index 0)
-Reservasi uses calendar icon (index 1)
-Testimoni uses comment icon (index 2)
-Fixed the HomeScreen navigation method:
-Updated _onItemTapped to navigate to TestimonialPage when the third tab is selected
-Added labels to bottom navigation bar items for better clarity
-Fixed the TestimonialPage navigation:
-Set _currentIndex = 2 to correctly highlight the Testimoni tab
-Updated navigation logic to return to HomeScreen when the Home tab is tapped
-Improved navigation performance:
-Added checks to prevent unnecessary navigation when already on the current tab
-Used Navigator.pushReplacementNamed for cleaner navigation between main screens
-Added more meaningful icons:
-Changed the icon for Reservasi from search to calendar_today
-Changed the icon for Testimoni from help to comment
-These changes ensure that when users navigate between screens, the bottom navigation bar correctly shows which page they're on, with the active tab highlighted in orange. The navigation flow between Home and Testimoni pages is now seamless and consistent.
-
-
-
-
-
-
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
-import 'dart:async';
-
-class TestimonialPage extends StatefulWidget {
-  @override
-  _TestimonialPageState createState() => _TestimonialPageState();
-}
-
-class _TestimonialPageState extends State<TestimonialPage> {
-  List<Map<String, String>> testimonials = [];
-  int _currentIndex = 2; // Index 2 represents the Testimoni tab
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTestimonials();
-  }
-
-  Future<void> fetchTestimonials() async {
-    final url = 'https://docs.google.com/spreadsheets/d/1vA8Ev-IYUjMKldFN4Rl5gu6tWA-wncbb_cWXrdOiWRE/gviz/tq?tqx=out:csv';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      List<String> rows = response.body.split("\n").where((row) => row.trim().isNotEmpty).toList();
-      List<Map<String, String>> parsedData = [];
-
-      for (int i = 1; i < rows.length; i++) {
-        List<String> columns = _parseCsvRow(rows[i]);
-
-        if (columns.length >= 3) {
-          parsedData.add({
-            "Nama": columns[1].trim(),
-            "Rating Tingkat Kepuasan": columns[2].trim(),
-            "Testimoni": columns[3].trim(),
-          });
-        }
-      }
-
-      setState(() {
-        testimonials = parsedData;
-      });
-    }
-  }
-
-  List<String> _parseCsvRow(String row) {
-    List<String> result = [];
-    String current = "";
-    bool inQuotes = false;
-
-    for (int i = 0; i < row.length; i++) {
-      if (row[i] == '"') {
-        inQuotes = !inQuotes;
-      } else if (row[i] == ',' && !inQuotes) {
-        result.add(current.trim());
-        current = "";
-      } else {
-        current += row[i];
-      }
-    }
-    result.add(current.trim());
-    return result;
-  }
-
   void _onNavBarTapped(int index) {
-    if (index == _currentIndex) return; // Prevent unnecessary navigation
-    
     if (index == 0) {
-      // Navigate to Home
-      Navigator.pushReplacementNamed(context, '/');
+      // Kode navigasi ke Home (kalau sudah ada)
     } else if (index == 1) {
-      // Navigate to Reservasi
-      _launchReservationForm();
+      // Stay di Testimoni (sekarang ini)
     } else if (index == 2) {
-      // Already on Testimoni page, no need to navigate
+      _launchURL(); // Tombol search diarahkan ke Google Form
     }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   void _launchURL() async {
