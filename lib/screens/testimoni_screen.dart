@@ -77,7 +77,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
       // Sudah berada di halaman testimoni, tidak perlu melakukan navigasi
     } else if (index == 2) {
       // Navigasi ke halaman Reservasi (Google Form)
-      _launchReservationForm();
+      _launchURL();
     }
   }
 
