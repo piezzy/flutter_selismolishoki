@@ -26,9 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchReservationPage(
-            reservationNumber: _reservationController.text,
-          ),
+          builder:
+              (context) => SearchReservationPage(
+                reservationNumber: _reservationController.text,
+              ),
         ),
       );
     } else if (index == 2) {
@@ -44,9 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchReservationPage(
-            reservationNumber: _reservationController.text,
-          ),
+          builder:
+              (context) => SearchReservationPage(
+                reservationNumber: _reservationController.text,
+              ),
         ),
       );
     } else {
@@ -67,7 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
     required Widget page,
   }) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => page)),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          ),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFF97316),
@@ -106,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Header
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 6.0,
+              ),
               decoration: BoxDecoration(
                 color: const Color(0xFFF97316),
                 borderRadius: const BorderRadius.only(
@@ -209,111 +218,125 @@ class _HomeScreenState extends State<HomeScreen> {
                   autoPlay: true,
                   autoPlayInterval: const Duration(seconds: 5),
                 ),
-                items: [
-                  {
-                    'image': 'assets/carousel1.jpg',
-                    'title': 'Selis Molis Hoki',
-                    'subtitle': 'Ingin tahu status perbaikan kendaraan anda?',
-                    'buttonText': 'Cek Status',
-                  },
-                  {
-                    'image': 'assets/carousel2.jpg',
-                    'title': 'Selis Molis Hoki',
-                    'subtitle': 'Home Service dan Servis di Bengkel\nSiap Melayani Dimana Saja, Kapan Saja!',
-                    'buttonText': 'Servis Sekarang',
-                  },
-                  {
-                    'image': 'assets/carousel3.jpg',
-                    'title': 'Selis Molis Hoki',
-                    'subtitle': 'Servis Kendaraan Listrik dan Sepeda Listrik Purwokerto.',
-                    'buttonText': 'Servis Sekarang',
-                  },
-                ].map((item) {
-                  return SizedBox(
-                    width: 500,
-                    child: Stack(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: AssetImage(item['image'] as String),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            gradient: LinearGradient(
-                              begin: Alignment.center,
-                              end: Alignment.center,
-                              colors: [
-                                Colors.black.withOpacity(0.3),
-                                Colors.black.withOpacity(0.0),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 20,
-                          left: 0,
-                          right: 0,
-                          child: Column(
-                            children: [
-                              Text(
-                                item['title'] as String,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                items:
+                    [
+                      {
+                        'image': 'assets/carousel1.jpg',
+                        'title': 'Selis Molis Hoki',
+                        'subtitle':
+                            'Ingin tahu status perbaikan kendaraan anda?',
+                        'buttonText': 'Cek Status',
+                      },
+                      {
+                        'image': 'assets/carousel2.jpg',
+                        'title': 'Selis Molis Hoki',
+                        'subtitle':
+                            'Home Service dan Servis di Bengkel\nSiap Melayani Dimana Saja, Kapan Saja!',
+                        'buttonText': 'Servis Sekarang',
+                      },
+                      {
+                        'image': 'assets/carousel3.jpg',
+                        'title': 'Selis Molis Hoki',
+                        'subtitle':
+                            'Servis Kendaraan Listrik dan Sepeda Listrik Purwokerto.',
+                        'buttonText': 'Servis Sekarang',
+                      },
+                    ].map((item) {
+                      return SizedBox(
+                        width: 500,
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 4.0,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(
+                                  image: AssetImage(item['image'] as String),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: Text(
-                                  item['subtitle'] as String,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                gradient: LinearGradient(
+                                  begin: Alignment.center,
+                                  end: Alignment.center,
+                                  colors: [
+                                    Colors.black.withOpacity(0.3),
+                                    Colors.black.withOpacity(0.0),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 20,
+                              left: 0,
+                              right: 0,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    item['title'] as String,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (item['buttonText'] == 'Cek Status') {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => SearchReservationPage(
-                                          reservationNumber : _reservationController.text, 
-                                        ),
+                                  const SizedBox(height: 8),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                    ),
+                                    child: Text(
+                                      item['subtitle'] as String,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
                                       ),
-                                    );
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => item['buttonText'] == 'Servis Sekarang' 
-                                          ? HomeServiceScreen() 
-                                          : BengkelServiceScreen(),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(item['buttonText'] as String),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (item['buttonText'] == 'Cek Status') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => SearchReservationPage(
+                                                  reservationNumber:
+                                                      _reservationController
+                                                          .text,
+                                                ),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) =>
+                                                    item['buttonText'] ==
+                                                            'Servis Sekarang'
+                                                        ? HomeServiceScreen()
+                                                        : BengkelServiceScreen(),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Text(item['buttonText'] as String),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+                      );
+                    }).toList(),
               ),
             ),
 
@@ -324,10 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const Text(
                     'Jenis Servis',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const SizedBox(height: 16),
                   GridView.count(
@@ -359,10 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const Text(
                     'Testimoni Pelanggan',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
@@ -388,7 +405,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12),
+                            ),
                             child: Container(
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -451,9 +470,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Cek Status',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: 'FAQ'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xFFF97316),
