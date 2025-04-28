@@ -64,17 +64,21 @@ class _TestimonialPageState extends State<TestimonialPage> {
     return result;
   }
 
-  void _onNavBarTapped(int index) {
-    if (index == 0) {
-      // Kode navigasi ke Home (kalau sudah ada)
-    } else if (index == 1) {
-      // Stay di Testimoni (sekarang ini)
-    } else if (index == 2) {
-      _launchURL(); // Tombol search diarahkan ke Google Form
+   void _onNavBarTapped(int index) {
+    if (index == _currentIndex) {
+      // Jika user tap halaman yang sedang aktif, tidak perlu melakukan apa-apa
+      return;
     }
-    setState(() {
-      _currentIndex = index;
-    });
+    
+    if (index == 0) {
+      // Navigasi ke Home
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (index == 1) {
+      // Sudah berada di halaman testimoni, tidak perlu melakukan navigasi
+    } else if (index == 2) {
+      // Navigasi ke halaman Reservasi (Google Form)
+      _launchReservationForm();
+    }
   }
 
   void _launchURL() async {
