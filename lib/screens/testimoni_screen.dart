@@ -13,7 +13,7 @@ class TestimonialPage extends StatefulWidget {
 
 class _TestimonialPageState extends State<TestimonialPage> {
   List<Map<String, String>> testimonials = [];
-  int _currentIndex = 0; // Karena ini halaman tengah (search icon)
+  int _currentIndex = 1; // Karena ini halaman tengah (search icon)
 
   @override
   void initState() {
@@ -67,15 +67,15 @@ class _TestimonialPageState extends State<TestimonialPage> {
   }
 
   void _onNavBarTapped(int index) {
-    if (index == 1) {
+    if (index == 0) {
       // Kode navigasi ke Home (kalau sudah ada)
         Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-    } else if (index == 2) {
+    } else if (index == 1) {
       // Stay di Testimoni (sekarang ini)
-    } else if (index == 3) {
+    } else if (index == 2) {
       _launchURL(); // Tombol search diarahkan ke Google Form
     }
   }
