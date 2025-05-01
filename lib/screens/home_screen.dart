@@ -335,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         borderRadius: BorderRadius.circular(20), // Opsional: sudut membulat
                                   ),
                                      ),
+                                ],
                                     child: Text(item['buttonText'] as String),
                               ),
                             ),
