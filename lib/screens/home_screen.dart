@@ -306,37 +306,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder:
-                                                (_) => SearchReservationPage(
-                                                  reservationNumber:
-                                                      _reservationController
-                                                          .text,
-                                                ),
-                                          ),
-                                        );
-                                      } else {
+                                            builder: (_) => SearchReservationPage(
+                                              reservationNumber: _reservationController.text,
+                                            ),
+                                           ),
+                                          );
+                                     } else {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder:
-                                                (_) =>
-                                                    item['buttonText'] ==
-                                                            'Servis Sekarang'
-                                                        ? HomeServiceScreen()
-                                                        : BengkelServiceScreen(),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue, // Latar belakang biru
-                                      foregroundColor: Colors.white, // Teks putih
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20), // Opsional: sudut membulat
-                                  ),
-                                     ),
+                                            builder: (_) =>
+                                               item['buttonText'] == 'Servis Sekarang'
+                                                    ? HomeServiceScreen()
+                                                    : BengkelServiceScreen(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue, // Latar belakang biru
+                                    foregroundColor: Colors.white, // Teks putih
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20), // Opsional: sudut membulat
+                                ),
+                              ),
+                            child: Text(item['buttonText'] as String),
+                          ),
                                 ],
-                                    child: Text(item['buttonText'] as String),
                               ),
                             ),
                           ],
