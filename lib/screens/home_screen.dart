@@ -328,9 +328,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         );
                                       }
                                     },
-                                    child: Text(item['buttonText'] as String),
+                                     style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue, // Latar belakang biru
+                                      foregroundColor: Colors.white, // Teks putih
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20), // Opsional: sudut membulat
                                   ),
-                                ],
+                                     ),
+                                    child: Text(item['buttonText'] as String),
                               ),
                             ),
                           ],
