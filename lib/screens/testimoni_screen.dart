@@ -220,7 +220,7 @@ class _TestimonialPageState extends State<TestimonialPage> {
           BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: 'FAQ'),
         ],
         currentIndex: _currentIndex,
-        selectedItemColor: Color(0xFFF97316),
+        selectedItemColor: Colors.grey,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
