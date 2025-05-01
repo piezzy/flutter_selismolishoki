@@ -214,8 +214,8 @@ class _TestimonialPageState extends State<TestimonialPage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Testimoni',
+            icon: Icon(Icons.search),
+            label: 'Cek Status',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: 'FAQ'),
         ],
