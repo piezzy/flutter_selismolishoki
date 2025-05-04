@@ -29,6 +29,7 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
   File? _selectedImage;
   LatLng? _selectedLocation;
   String? _locationError;
+  String? _reservationNumber = 'settest1223';
 
   final List<String> _jenisKerusakan = [
     'Ban Kempes/Bocor',
@@ -71,6 +72,97 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
         _selectedImage = File(pickedImage.path);
       });
     }
+  }
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            constraints: const BoxConstraints(maxWidth: 340),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                    size: 50,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                const Text(
+                  'Reservasi Berhasil',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                Text(
+                  'No Resi Anda: $_reservationNumber',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                const Text(
+                  'Simpan No Resi anda untuk melihat status servis anda!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFF97316),
+                    minimumSize: const Size(double.infinity, 45),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _getCurrentLocation() async {
@@ -621,6 +713,7 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
                             onPressed: () {
                               if (_validateForm()) {
                                 _submitForm();
+                                _showSuccessDialog();
                               }
                             },
                             child: const Text(
@@ -714,6 +807,7 @@ class _HomeServiceScreenState extends State<HomeServiceScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
       );
+      _showSuccessDialog();
       print('Response: ${response.body}');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
