@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_selismolishoki/screens/home_screen.dart';
-import 'package:flutter_selismolishoki/screens/FAQ_screen.dart';
-import 'package:flutter_selismolishoki/screens/CekStatus.dart';
 
 class TestimonialPage extends StatefulWidget {
   @override
@@ -11,221 +6,206 @@ class TestimonialPage extends StatefulWidget {
 }
 
 class _TestimonialPageState extends State<TestimonialPage> {
-  List<Map<String, String>> testimonials = [];
-  int _currentIndex = 1; // Default to testimonial page (middle icon)
+  List<Map<String, dynamic>> testimonials = [
+    {
+      "Nama": "Andi",
+      "Rating": 4,
+      "Testimoni": "Pelayanan sangat memuaskan!"
+    },
+    {
+      "Nama": "Budi",
+      "Rating": 5,
+      "Testimoni": "Sangat direkomendasikan, mantap!"
+    },
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchTestimonials();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
+  int _selectedRating = 5;
+  bool _hasSubmitted = false;
+
+  int _currentIndex = 1;
+
+  void _addTestimonial() {
+    if (_nameController.text.trim().isEmpty || _commentController.text.trim().isEmpty) return;
+
+    setState(() {
+      testimonials.insert(0, {
+        "Nama": _nameController.text.trim(),
+        "Rating": _selectedRating,
+        "Testimoni": _commentController.text.trim(),
+      });
+      _hasSubmitted = true;
+    });
+
+    _nameController.clear();
+    _commentController.clear();
+    _selectedRating = 5;
+
+    // Show thank you dialog
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Terima Kasih!'),
+        content: Text('Terima kasih telah memberi testimoni.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Tutup'),
+          )
+        ],
+      ),
+    );
   }
 
-  Future<void> fetchTestimonials() async {
-    final url =
-        'https://docs.google.com/spreadsheets/d/1vA8Ev-IYUjMKldFN4Rl5gu6tWA-wncbb_cWXrdOiWRE/gviz/tq?tqx=out:csv';
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        List<String> rows =
-            response.body
-                .split("\n")
-                .where((row) => row.trim().isNotEmpty)
-                .toList();
-
-        List<Map<String, String>> parsedData = [];
-        for (int i = 1; i < rows.length; i++) {
-          List<String> columns = _parseCsvRow(rows[i]);
-          if (columns.length >= 3) {
-            parsedData.add({
-              "Nama": columns[1].trim(),
-              "Rating Tingkat Kepuasan": columns[2].trim(),
-              "Testimoni": columns[3].trim(),
-            });
-          }
-        }
-        setState(() {
-          testimonials = parsedData;
-        });
-      }
-    } catch (e) {
-      print('Error fetching testimonials: $e');
-    }
-  }
-
-  List<String> _parseCsvRow(String row) {
-    List<String> result = [];
-    String current = "";
-    bool inQuotes = false;
-    for (int i = 0; i < row.length; i++) {
-      if (row[i] == '"') {
-        inQuotes = !inQuotes;
-      } else if (row[i] == ',' && !inQuotes) {
-        result.add(current.trim());
-        current = "";
-      } else {
-        current += row[i];
-      }
-    }
-    result.add(current.trim());
-    return result;
-  }
-
-  void _onItemTapped(int index) {
+  void _onNavBarTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SearchReservationPage(reservationNumber: ''),
-          ),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FAQPage()),
-        );
-        break;
-    }
+    // Tambahkan navigasi sesuai kebutuhan
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Testimoni Pelanggan',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        title: Text('Testimoni', style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
         backgroundColor: Color(0xFFF97316),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              'Pesan dari Pelanggan Kami',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            child:
-                testimonials.isEmpty
-                    ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Color(0xFFF97316),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              !_hasSubmitted
+                  ? Column(
+                      children: [
+                        Text(
+                          'Beri Testimoni Anda',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                         ),
-                      ),
-                    )
-                    : ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: testimonials.length,
-                      itemBuilder: (context, index) {
-                        final testimonial = testimonials[index];
-                        final name = testimonial["Nama"] ?? "Pelanggan";
-                        final rating =
-                            int.tryParse(
-                              testimonial["Rating Tingkat Kepuasan"]
-                                      ?.replaceAll(RegExp(r'[^0-9]'), '') ??
-                                  "0",
-                            ) ??
-                            0;
-                        final comment = testimonial["Testimoni"] ?? "";
-
-                        return Card(
-                          margin: EdgeInsets.only(bottom: 16),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                        SizedBox(height: 12),
+                        TextField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            labelText: 'Nama',
+                            border: OutlineInputBorder(),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      name,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppins',
-                                      ),
-                                    ),
-                                    Row(
-                                      children: List.generate(
-                                        5,
-                                        (i) => Icon(
-                                          Icons.star,
-                                          color:
-                                              i < rating
-                                                  ? Colors.amber
-                                                  : Colors.grey[300],
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 12),
-                                Text(
-                                  comment,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14,
+                        ),
+                        SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Text('Rating:', style: TextStyle(fontSize: 16)),
+                            SizedBox(width: 10),
+                            Row(
+                              children: List.generate(
+                                5,
+                                (index) => IconButton(
+                                  icon: Icon(
+                                    index < _selectedRating ? Icons.star : Icons.star_border,
+                                    color: Colors.orange,
                                   ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _selectedRating = index + 1;
+                                    });
+                                  },
                                 ),
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextField(
+                          controller: _commentController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            labelText: 'Testimoni',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: _addTestimonial,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFF97316),
+                          ),
+                          child: Text('Kirim Testimoni', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+                        ),
+                        SizedBox(height: 24),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Text(
+                          'Anda sudah memberikan testimoni.',
+                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.grey[700]),
+                        ),
+                        SizedBox(height: 24),
+                      ],
+                    ),
+              Divider(),
+              Text(
+                'Testimoni Pengguna',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+              ),
+              SizedBox(height: 12),
+              ...testimonials.map((testimonial) {
+                final String name = testimonial["Nama"];
+                final int rating = testimonial["Rating"];
+                final String comment = testimonial["Testimoni"];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF97316),
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                              rating,
+                              (index) => Icon(Icons.star, color: Colors.yellow, size: 20),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Text('“$comment”', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontFamily: 'Poppins')),
+                              SizedBox(height: 10),
+                              Text('- $name', style: TextStyle(fontSize: 14, color: Colors.black54, fontFamily: 'Poppins')),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                );
+              }).toList(),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Cek Status',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.help_outline), label: 'FAQ'),
-        ],
         currentIndex: _currentIndex,
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
+        onTap: _onNavBarTapped,
         backgroundColor: Colors.white,
-        elevation: 8,
+        selectedItemColor: Color(0xFFF97316),
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Reservasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.help), label: 'FAQ'),
+        ],
       ),
     );
   }
