@@ -7,6 +7,7 @@ import 'location_picker_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 
 class BengkelServiceScreen extends StatefulWidget {
@@ -22,38 +23,17 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
   final TextEditingController _alamatlengkapController = TextEditingController();
   final TextEditingController _alamatController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
-  String? _selectedKerusakan;
+  int? _selectedKerusakan;
   DateTime? _selectedDate;
   String? _selectedStartTime;
   String? _selectedEndTime;
   File? _selectedImage;
+  File? _selectedVideo;
   LatLng? _selectedLocation;
   String? _locationError;
   String _reservationNumber = "GR-TESTDOANG"; 
 
-  final List<String> _jenisKerusakan = [
-    'Ban Kempes/Bocor',
-    'Bisa Nyala tidak bisa digas',
-    'Konslet/salah sambung',
-    'Lemah saat dipakai, hanya mampu jarak pendek',
-    'Tidak bisa kencang, lebih lambat dari biasanya',
-    'Tidak bisa di cas, Lampu cas langsung hijau',
-    'Lama tidak dipakai',
-    'Riting nggak nyala',
-    'Klakson Mati',
-    'Lampu utama mati',
-    'Lampu belakang mati',
-    'Remot tidak berfungsi',
-    'Tiba-tiba Mati',
-    'Charger tidak berfungsi',
-    'Kunci Kontak Hilang atau Rusak',
-    'Kode Error',
-    'Di gas Mblandang atau tidak bisa dikendalikan',
-    'Susah berbelok',
-    'Body Pecah atau Retak',
-    'Aksesoris rusak',
-    'Lain-lain',
-  ];
+  Map<int, String> _jenisKerusakanMap = {};
 
   @override
   void dispose() {
@@ -62,6 +42,12 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
     _alamatlengkapController.dispose();
     _deskripsiController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJenisKerusakan();
   }
 
   Future<void> _pickImage() async {
@@ -344,7 +330,7 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          DropdownButtonFormField<String>(
+                          DropdownButtonFormField<int>(
                             value: _selectedKerusakan,
                             decoration: InputDecoration(
                               filled: true,
@@ -361,12 +347,15 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                             hint: const Text('Pilih jenis kerusakan'),
                             isExpanded: true,
                             icon: const Icon(Icons.arrow_drop_down),
-                            items: _jenisKerusakan.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+
+                            // Map entries to DropdownMenuItem<int>
+                            items: _jenisKerusakanMap.entries.map((entry) {
+                              return DropdownMenuItem<int>(
+                                value: entry.key,         // int id
+                                child: Text(entry.value), // String name
                               );
                             }).toList(),
+
                             onChanged: (newValue) {
                               setState(() {
                                 _selectedKerusakan = newValue;
@@ -638,35 +627,91 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
     return true;
   }
 
+
+Future<void> _loadJenisKerusakan() async {
+  try {
+    final map = await fetchJenisKerusakanMap();
+    setState(() {
+      _jenisKerusakanMap = map;
+    });
+  } catch (e) {
+    // Handle error (e.g., show a snackbar or log)
+    print('Error fetching jenis kerusakan: $e');
+  }
+}
+
+  Future<Map<int, String>> fetchJenisKerusakanMap() async {
+  final String apiUrl = 'http://10.0.2.2:8000/api/jenis-kerusakan/list';
+  
+  try {
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      
+      if (data['status'] == 'success') {
+        // Convert API response to Map<int, String> (ID → Nama)
+        final Map<int, String> jenisKerusakanMap = {};
+        for (var item in data['data']) {
+          jenisKerusakanMap[item['id']] = item['nama'];
+        }
+        return jenisKerusakanMap;
+      } else {
+        throw Exception('Failed to load data: ${data['message']}');
+      }
+    } else {
+      throw Exception('HTTP error ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to fetch jenis kerusakan: $e');
+  }
+}
+
   void _submitForm() async {
-    final formData = {
-      'nama': _namaController.text,
-      'whatsapp': _whatsappController.text,
-      'alamat lengkap': _alamatlengkapController.text,
-      'jenis_kerusakan': _selectedKerusakan,
-      'deskripsi': _deskripsiController.text,
-      'tanggal': _selectedDate?.toIso8601String(),
-      'waktu_mulai': _selectedStartTime,
-      'waktu_selesai': _selectedEndTime,
-      'gambar': _selectedImage?.path,
-    };
+    
+     final uri = Uri.parse('http://10.0.2.2:8000/api/reservasi/garage'); // Replace with your API URL
+    final request = http.MultipartRequest('POST', uri);
 
-    try {
-      final url = Uri.parse('https://');
+    // Add form fields
+    request.fields['namaLengkap'] = _namaController.text;
+    request.fields['noTelp'] = _whatsappController.text;
+    request.fields['alamatLengkap'] = _alamatlengkapController.text;
+    request.fields['idJenisKerusakan'] = _selectedKerusakan.toString();
+    request.fields['deskripsi'] = _deskripsiController.text;
+    request.fields['tanggal'] = _selectedDate?.toIso8601String() ?? '';
+    request.fields['waktuMulai'] = _selectedStartTime ?? '';
+    request.fields['waktuSelesai'] = _selectedEndTime ?? '';
 
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(formData),
-      );
+    // Add image file
+    if (_selectedImage != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'gambar',
+            _selectedImage!.path,
+            contentType: MediaType('image','png',), // adjust based on image type
+          ),
+        );
+      }
 
-      if (response.statusCode == 200) {
+      if (_selectedVideo != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'video',
+            _selectedVideo!.path,
+            contentType: MediaType('video', 'mp4'), // adjust based on video type
+          ),
+        );
+      }
+
+     try {
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
-      );
-        _showSuccessDialog();
+          const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
+        );
+        _showSuccessDialog(); // Make sure this function is defined in your widget
         print('Response: ${response.body}');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
