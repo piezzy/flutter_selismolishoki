@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 class TestimonialPage extends StatefulWidget {
   @override
@@ -6,18 +9,7 @@ class TestimonialPage extends StatefulWidget {
 }
 
 class _TestimonialPageState extends State<TestimonialPage> {
-  List<Map<String, dynamic>> testimonials = [
-    {
-      "Nama": "Andi",
-      "Rating": 4,
-      "Testimoni": "Pelayanan sangat memuaskan!"
-    },
-    {
-      "Nama": "Budi",
-      "Rating": 5,
-      "Testimoni": "Sangat direkomendasikan, mantap!"
-    },
-  ];
+  List<Map<String, dynamic>> testimonials = [];
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
@@ -26,36 +18,69 @@ class _TestimonialPageState extends State<TestimonialPage> {
 
   int _currentIndex = 1;
 
-  void _addTestimonial() {
-    if (_nameController.text.trim().isEmpty || _commentController.text.trim().isEmpty) return;
+  //calling initState to get fetchTestimonial
+  @override
+  void initState() {
+    super.initState();
+    fetchTestimonials();
+  }
 
-    setState(() {
-      testimonials.insert(0, {
-        "Nama": _nameController.text.trim(),
-        "Rating": _selectedRating,
-        "Testimoni": _commentController.text.trim(),
-      });
-      _hasSubmitted = true;
-    });
+  void _addTestimonial() async {
+    final String name = _nameController.text.trim();
+    final String comment = _commentController.text.trim();
 
-    _nameController.clear();
-    _commentController.clear();
-    _selectedRating = 5;
+    if (name.isEmpty || comment.isEmpty) return;
 
-    // Show thank you dialog
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Terima Kasih!'),
-        content: Text('Terima kasih telah memberi testimoni.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Tutup'),
-          )
-        ],
-      ),
+    final success = await submitTestimonial(
+      nama: name,
+      rating: _selectedRating,
+      ulasan: comment,
     );
+
+    if (success) {
+      setState(() {
+        testimonials.insert(0, {
+          "Nama": name,
+          "Rating": _selectedRating,
+          "Testimoni": comment,
+        });
+        _hasSubmitted = true;
+      });
+
+      _nameController.clear();
+      _commentController.clear();
+      _selectedRating = 5;
+
+      // Show thank you dialog
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Terima Kasih!'),
+          content: Text('Testimoni Anda berhasil dikirim.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Tutup'),
+            )
+          ],
+        ),
+      );
+    } else {
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Gagal'),
+          content: Text('Testimoni gagal dikirim. Silakan coba lagi nanti.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Tutup'),
+            )
+          ],
+        ),
+      );
+    }
   }
 
   void _onNavBarTapped(int index) {
@@ -209,4 +234,76 @@ class _TestimonialPageState extends State<TestimonialPage> {
       ),
     );
   }
+
+//get data from API
+Future<void> fetchTestimonials() async {
+  final url = Uri.parse('http://10.0.2.2:8000/api/ulasan/'); 
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      if (jsonData['success'] == true && jsonData['data'] is List) {
+        final List<Map<String, dynamic>> loadedTestimonials = [];
+
+        for (var item in jsonData['data']) {
+          loadedTestimonials.add({
+            'Nama': item['nama'],
+            'Rating': item['rating'],
+            'Testimoni': item['ulasan'],
+          });
+        }
+
+        setState(() {
+          testimonials = loadedTestimonials;
+        });
+      } else {
+        print('Unexpected response format: ${response.body}');
+      }
+    } else {
+      print('Failed to load testimonials: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error fetching testimonials: $e');
+  }
+}
+
+//post data to API
+Future<bool> submitTestimonial({
+  required String nama,
+  required int rating,
+  required String ulasan,
+}) async {
+  final url = Uri.parse('http://10.0.2.2:8000/api/ulasan/add'); 
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'nama': nama,
+        'rating': rating,
+        'ulasan': ulasan,
+      }),
+    );
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      print('Success: ${response.body}');
+      return true;
+    } else {
+      print('Failed: ${response.statusCode} | ${response.body}');
+      return false;
+    }
+  } catch (e) {
+    print('Exception: $e');
+    return false;
+  }
+}
+
+
+
+
 }
