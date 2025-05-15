@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:flutter/services.dart'; 
 import 'dart:convert';
 
 class BengkelServiceScreen extends StatefulWidget {
@@ -31,7 +32,8 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
   File? _selectedVideo;
   LatLng? _selectedLocation;
   String? _locationError;
-  String _reservationNumber = "GR-TESTDOANG"; 
+  String _reservationNumber = "GR-TESTDOANG";
+  bool _isSubmitting = false;
 
   Map<int, String> _jenisKerusakanMap = {};
 
@@ -99,14 +101,18 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
                 ),
                 const SizedBox(height: 12),
 
-                Text(
+                SelectableText(
                   'No Resi Anda: $_reservationNumber',
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black87,
                   ),
+                  onTap: () {
+                    if (_reservationNumber != null) {
+                      Clipboard.setData(ClipboardData(text: _reservationNumber!));
+                    }
+                  },
                 ),
-                const SizedBox(height: 8),
 
                 const Text(
                   'Simpan No Resi anda untuk melihat status servis anda!',
@@ -561,26 +567,37 @@ class _BengkelServiceScreenState extends State<BengkelServiceScreen> {
 
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFF97316),
+                              backgroundColor: const Color(0xFFF97316), // Orange color
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: _isSubmitting ? null : () async {
                               if (_validateForm()) {
-                                _submitForm();
-                                _showSuccessDialog();
+                                setState(() => _isSubmitting = true);
+                                final success = await _submitForm();
+                                setState(() => _isSubmitting = false);
+                                if (success) _showSuccessDialog();
                               }
                             },
-                            child: const Text(
-                              'Kirim',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            child: _isSubmitting
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2.0,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Kirim',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                           ),
                         ],
                       ),
@@ -667,11 +684,12 @@ Future<void> _loadJenisKerusakan() async {
   }
 }
 
-  void _submitForm() async {
-    
-     final uri = Uri.parse('http://10.0.2.2:8000/api/reservasi/garage'); // Replace with your API URL
-    final request = http.MultipartRequest('POST', uri);
 
+  Future<bool> _submitForm() async {  // Changed from void to Future<bool>
+  final uri = Uri.parse('http://10.0.2.2:8000/api/reservasi/garage');
+  final request = http.MultipartRequest('POST', uri);
+
+  try {
     // Add form fields
     request.fields['namaLengkap'] = _namaController.text;
     request.fields['noTelp'] = _whatsappController.text;
@@ -702,28 +720,25 @@ Future<void> _loadJenisKerusakan() async {
           ),
         );
       }
-
-     try {
+    
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permintaan servis berhasil dikirim')),
-        );
-        _showSuccessDialog(); // Make sure this function is defined in your widget
-        print('Response: ${response.body}');
+        final jsonData = jsonDecode(response.body);
+        _reservationNumber = jsonData['data']['no_resi'];
+        return true;  // Success
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal mengirim data: ${response.statusCode}')),
         );
-        print('Error: ${response.body}');
+        return false;  // Failure
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Terjadi error: $e')),
       );
-      print('Exception: $e');
+      return false;  // Failure
     }
   }
 }
