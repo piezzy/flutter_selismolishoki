@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'subtitle': 'Ingin tahu status perbaikan kendaraan anda?',
                       'buttonText': 'Cek Status',
                       'onPressed': () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchReservationPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchReservationPage(reservationNumber: '',)));
                       },
                     },
                     {

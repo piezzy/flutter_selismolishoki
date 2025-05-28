@@ -1,6 +1,54 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'Transaction.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_selismolishoki/screens/home_screen.dart';
 import 'package:flutter_selismolishoki/screens/FAQ_screen.dart';
+
+
+class Reservation {
+  final String nama;
+  final String telp;
+  final String servis;
+  final String deskripsi;
+  final String status;
+  final String? tanggal;
+  final String? waktuMulai;
+  final String? waktuSelesai;
+  final String? alamat;
+  final String? latitude;
+  final String? longitude;
+
+  Reservation({
+    required this.nama,
+    required this.telp,
+    required this.servis,
+    required this.deskripsi,
+    required this.status,
+    this.tanggal,
+    this.waktuMulai,
+    this.waktuSelesai,
+    this.alamat,
+    this.latitude,
+    this.longitude,
+  });
+
+  factory Reservation.fromJson(Map<String, dynamic> json) {
+    return Reservation(
+      nama: json['namaLengkap'],
+      telp: json['noTelp'],
+      servis: json['servis'],
+      deskripsi: json['deskripsi'],
+      status: json['status'],
+      tanggal: json['tanggal'],
+      waktuMulai: json['waktuMulai'],
+      waktuSelesai: json['waktuSelesai'],
+      alamat: json['alamat'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+    );
+  }
+}
 
 class SearchReservationPage extends StatefulWidget {
   final String reservationNumber;
@@ -62,22 +110,38 @@ class _SearchReservationPageState extends State<SearchReservationPage> {
       _isLoading = true;
     });
 
-    // Simulate API call delay
-    await Future.delayed(const Duration(seconds: 2));
+    final resiNumber = _controller.text.trim();
 
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/api/reservasi/checkresi?noResi=$resiNumber'),
+    );
 
-    // Check if reservation number is valid (dummy validation)
-    final isValidResi =
-        _controller.text.trim().length >= 6; // Example validation
+      setState(() {
+        _isLoading = false;
+      });
 
-    if (!isValidResi) {
-      _showResiNotFoundDialog();
-    } else {
-      // If valid, proceed to show reservation status
-      _showReservationStatus();
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        final data = jsonData['data'];
+
+        final reservation = Reservation.fromJson(data);
+        _showReservationStatus(reservation);
+      } else {
+        _showResiNotFoundDialog();
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      print('Error fetching reservation: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Terjadi kesalahan saat mengambil data.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -101,36 +165,85 @@ class _SearchReservationPageState extends State<SearchReservationPage> {
     );
   }
 
-  void _showReservationStatus() {
-    // In a real app, you would show actual reservation data
+  void _showReservationStatus(Reservation data) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Status Perbaikan'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Nomor Resi:'),
-                Text(
-                  _controller.text,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                const Text('Status: Dalam Proses Perbaikan'),
-                const SizedBox(height: 8),
-                const Text('Estimasi Selesai: 3 Hari Lagi'),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('TUTUP'),
+      builder: (context) => AlertDialog(
+        title: const Text('Status Perbaikan'),
+        content: SingleChildScrollView(
+          child: Table(
+            columnWidths: const {
+              0: IntrinsicColumnWidth(),
+              1: FlexColumnWidth(),
+            },
+            border: TableBorder.all(),
+            children: [
+              _buildRow('Nama', data.nama),
+              _buildRow('No. Telepon', data.telp),
+              _buildRow('Jenis Servis', data.servis),
+              _buildRow('Deskripsi', data.deskripsi),
+              _buildRow('Status', data.status),
+              if (data.tanggal != null) _buildRow('Tanggal', data.tanggal!),
+              if (data.waktuMulai != null) _buildRow('Waktu Mulai', data.waktuMulai!),
+              if (data.waktuSelesai != null) _buildRow('Waktu Selesai', data.waktuSelesai!),
+              if (data.alamat != null) _buildRow('Alamat', data.alamat!),
+              if (data.latitude != null) _buildRow('Latitude', data.latitude!),
+              if (data.longitude != null) _buildRow('Longitude', data.longitude!),
+              TableRow(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Link Pembayaran'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PembayaranPage()),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Klik untuk lihat',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Icon(Icons.qr_code, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('TUTUP'),
+          ),
+        ],
+      ),
     );
+  }
+
+  TableRow _buildRow(String label, String value) {
+    return TableRow(children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(label),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(value),
+      ),
+    ]);
   }
 
   @override
