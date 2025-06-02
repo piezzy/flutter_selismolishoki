@@ -313,6 +313,7 @@ class _SearchReservationPageState extends State<SearchReservationPage> {
           ],
         ),
       ),
+      
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),

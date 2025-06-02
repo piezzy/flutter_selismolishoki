@@ -147,7 +147,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                 onPressed: () {
                   // TODO: Navigasi ke halaman feedback
                 },
-                child: const Text('Feedback'),
+                child: const Text('Feedback', style: TextStyle(color: Colors.white),),
               ),
             ],
           ),
